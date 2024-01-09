@@ -1,56 +1,60 @@
-import React from "react";
-import { useState } from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import axiosWithAuth from "../utils/axiosWithAuth";
+import axios from "axios";
 
 const AddFriend = () => {
+    let navigate = useNavigate();
     const [form, setForm] = useState({
-        name: "",
-        age: "",
-        email: "",
+        name:'',
+        age:'',
+        email:'',
     })
-    const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = e => {
         setForm({
             ...form,
-            [e.target.id]: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axiosWithAuth().post("friends", form)
-            .then(res => {
-                navigate("/friends")
-            }).catch(err => console.log(err))
+    const handleSubmit = e => {
+        e.preventDefault()
+        const token = localStorage.getItem('token');
+        axios.post('http://localhost:9000/api/friends', form, {
+            headers: {
+                authorization: token
+            }
+        })
+        .then(res => {
+            navigate('/friends')
+        })
+        .catch(err => {console.error(err)})
     }
+
+    console.log(form)
     return (
         <div>
-            <h1>AddFriend Page</h1>
+            <h2>Add a friend</h2>
             <form onSubmit={handleSubmit}>
+
                 <div>
-                    <label>
-                        Friend Name:
-                        <input id="name" onChange={handleChange}></input>
-                    </label>
+                    <label htmlFor="name">Name:</label>
+                    <input onChange={handleChange} name ='name' id='name'></input>
                 </div>
+
                 <div>
-                    <label>
-                        Friend Email:
-                        <input id="email" type="email" onChange={handleChange}></input>
-                    </label>
+                    <label htmlFor="age">Age:</label>
+                    <input onChange={handleChange} name='age' id='age'></input>
                 </div>
+
                 <div>
-                    <label>
-                        Age:
-                        <input id="age" type="number" onChange={handleChange}></input>
-                    </label>
+                    <label htmlFor="email">Email:</label>
+                    <input onChange={handleChange} name='email' id='email'></input>
                 </div>
-                <button type="submit" >Submit</button>
+                <button>Submit</button>
             </form>
         </div>
-    );
-}
+    )
+  }
 
-export default AddFriend;
+export default AddFriend

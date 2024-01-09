@@ -10,25 +10,13 @@ import PrivateRoute from './components/PrivateRoutes';
 function App() {
   return (
       <div className="App">
-        <nav>
-          <Link className='homepage heading' to='/'>
-            F.R.I.E.N.D.S.
-          </Link>
-          <ul className='links'>
-            <li>
-              <Link to='/'>Login</Link>
-            </li>
-            <li>
-              <Link to='/friends'>Friends</Link>
-            </li>
-            <li>
-              <Link to='/friends/add'>Add Friends</Link>
-            </li>
-            <li>
-              <Link to='/logout'>Logout</Link>
-            </li>
-          </ul>
-        </nav>
+        <header className='header'>
+          <h2><Link className='link' to='/'>F.R.I.E.N.D.S.</Link></h2>
+              <Link className='link' to='/login'>Login</Link>
+              <Link className='link' to='/friends'>Friends</Link>
+              <Link className='link' to='/friends/add'>Add Friends</Link>
+              <Link className='link' to='/logout'>Logout</Link>
+        </header>
 
         <Routes>
           <Route path='/' element={<Login />} />
